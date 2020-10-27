@@ -1,0 +1,1186 @@
+<?php $__env->startSection('title', __('labels.backend.general_settings.title').' | '.app_name()); ?>
+
+<?php $__env->startPush('after-styles'); ?>
+    <link rel="stylesheet" href="<?php echo e(asset('plugins/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css')); ?>"/>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/colors/switch.css')); ?>">
+    <style>
+        .color-list li {
+            float: left;
+            width: 8%;
+        }
+
+        @media  screen  and (max-width: 768px) {
+            .color-list li {
+                width: 20%;
+                padding-bottom: 20px;
+            }
+
+            .color-list li:first-child {
+                padding-bottom: 0px;
+            }
+        }
+
+        .options {
+            line-height: 35px;
+        }
+
+        .color-list li a {
+            font-size: 20px;
+        }
+
+        .color-list li a.active {
+            border: 4px solid grey;
+        }
+
+        .color-default {
+            font-size: 18px !important;
+            background: #101010;
+            border-radius: 100%;
+        }
+
+        .form-control-label {
+            line-height: 35px;
+        }
+
+        .switch.switch-3d {
+            margin-bottom: 0px;
+            vertical-align: middle;
+
+        }
+
+        .color-default i {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .preview {
+            background-color: #dcd8d8;
+            background-image: url(https://www.transparenttextures.com/patterns/carbon-fibre-v2.png);
+        }
+
+        #logos img {
+            height: auto;
+            width: 100%;
+        }
+    </style>
+<?php $__env->stopPush(); ?>
+<?php $__env->startSection('content'); ?>
+    <?php echo e(html()->form('POST', route('admin.general-settings'))->id('general-settings-form')->class('form-horizontal')->acceptsFiles()->open()); ?>
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a data-toggle="tab" class="nav-link active " href="#general">
+                                <?php echo e(__('labels.backend.general_settings.title')); ?>
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#logos">
+                                <?php echo e(__('labels.backend.general_settings.logos.title')); ?>
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#layout">
+                                <?php echo e(__('labels.backend.general_settings.layout.title')); ?>
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#email">
+                                <?php echo e(__('labels.backend.general_settings.email.title')); ?>
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#payment_settings">
+                                <?php echo e(__('labels.backend.general_settings.payment_settings.title')); ?>
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#language_settings">
+                                <?php echo e(__('labels.backend.general_settings.language_settings.title')); ?>
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#user_registration_settings">
+                                <?php echo e(__('labels.backend.general_settings.user_registration_settings.title')); ?>
+
+                            </a>
+                        </li>
+                    </ul>
+                    <h4 class="card-title mb-0">
+                        
+                    </h4>
+                </div><!--col-->
+            </div><!--row-->
+
+            <div class="tab-content">
+                <!---General Tab--->
+                <div id="general" class="tab-pane container active">
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.app_name'))->class('col-md-2 form-control-label')->for('app_name')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->text('app__name')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.app_name'))
+                                        ->attribute('maxlength', 191)
+                                        
+                                        ->value(config('app.name'))
+                                        ->autofocus()); ?>
+
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.app_url'))->class('col-md-2 form-control-label')->for('app_url')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->text('app__url')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.app_url'))
+                                        ->attribute('maxlength', 191)
+
+                                        ->value(config('app.url'))); ?>
+
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.font_color'))->class('col-md-2 form-control-label')->for('font_color')); ?>
+
+
+                                <div class="col-md-10">
+                                    <ul class="d-inline-block list-inline w-100 mb-0 color-list list-style-none">
+                                        <li>
+                                            <a data-color="default" class="color-default"
+                                               href="#!"><i
+                                                        class="fas fa-circle"></i></a>
+                                            <p class="mb-0" style="font-size: 10px">(Default)</p>
+                                        </li>
+                                        <li>
+                                            <a data-color="color-2" class="color-2"
+                                               onclick="setActiveStyleSheet('color-2'); return true;" href="#!"><i
+                                                        class="fas fa-circle"></i></a>
+                                        </li>
+                                        <li>
+                                            <a data-color="color-3" class="color-3"
+                                               onclick="setActiveStyleSheet('color-3'); return true;" href="#!"><i
+                                                        class="fas fa-circle"></i></a>
+                                        </li>
+                                        <li>
+                                            <a data-color="color-4" class="color-4"
+                                               onclick="setActiveStyleSheet('color-4'); return true;" href="#!"><i
+                                                        class="fas fa-circle"></i></a>
+                                        </li>
+                                        <li>
+                                            <a data-color="color-5" class="color-5"
+                                               onclick="setActiveStyleSheet('color-5'); return true;" href="#!"><i
+                                                        class="fas fa-circle"></i></a>
+                                        </li>
+                                        <li>
+                                            <a data-color="color-6" class="color-6"
+                                               onclick="setActiveStyleSheet('color-6'); return true;" href="#!"><i
+                                                        class="fas fa-circle"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-color="color-7" class="color-7"
+                                               onclick="setActiveStyleSheet('color-7'); return true;" href="#!"><i
+                                                        class="fas fa-circle"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-color="color-8" class="color-8"
+                                               onclick="setActiveStyleSheet('color-8'); return true;" href="#!"><i
+                                                        class="fas fa-circle"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-color="color-9" class="color-9"
+                                               onclick="setActiveStyleSheet('color-9'); return true;" href="#!"><i
+                                                        class="fas fa-circle"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <input type="hidden" name="font_color" id="font_color" value="default">
+                                    <span class="help-text font-italic">This will change frontend theme font colors</span>
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.counter'))->class('col-md-2 form-control-label')->for('counter')); ?>
+
+
+                                <div class="col-md-10">
+                                    <select class="form-control" id="counter" name="counter">
+                                        <option selected
+                                                value="1"><?php echo e(__('labels.backend.general_settings.static')); ?></option>
+                                        <option value="2"><?php echo e(__('labels.backend.general_settings.database')); ?></option>
+                                    </select>
+                                    <span class="help-text font-italic"><?php echo __('labels.backend.general_settings.counter_note'); ?></span>
+                                    <div class="counter-container" id="counter-container">
+
+                                        <input class="form-control my-2" type="text" id="total_students" required
+                                               name="total_students"
+                                               placeholder="<?php echo e(__('labels.backend.general_settings.total_students')); ?>">
+
+                                        <input type="text" required id="total_courses" class="form-control mb-2"
+                                               name="total_courses"
+                                               placeholder="<?php echo e(__('labels.backend.general_settings.total_courses')); ?>">
+
+                                        <input type="text" required class="form-control mb-2" id="total_teachers"
+                                               name="total_teachers"
+                                               placeholder="<?php echo e(__('labels.backend.general_settings.total_teachers')); ?>">
+                                    </div>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.google_analytics_id'))->class('col-md-2 form-control-label')->for('app_name')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->text('google_analytics_id')
+                                        ->class('form-control')
+                                        ->placeholder('Ex. UA-34XXXXX23-3')
+                                        ->attribute('maxlength', 191)
+
+                                        ->value(config('google_analytics_id'))
+                                        ->autofocus()); ?>
+
+                                    <span class="float-right">
+                                        <a target="_blank" class="font-weight-bold font-italic"
+                                           href="https://support.google.com/analytics/answer/1042508"><?php echo e(__('labels.backend.general_settings.google_analytics_id_note')); ?></a>
+                                    </span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('validation.attributes.backend.settings.general_settings.captcha_status'))->class('col-md-2 form-control-label')->for('captcha_status')); ?>
+
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        <?php echo e(html()->label(
+                                                html()->checkbox('access__captcha__registration', config('access.captcha.registration') ? true : false,1)->id('captcha_status')
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')); ?>
+
+                                    </div>
+                                    <span class="float-right">
+                                        <a target="_blank" class="font-weight-bold font-italic"
+                                           href="https://support.google.com/analytics/answer/1042508"><?php echo e(__('labels.backend.general_settings.captcha_note')); ?></a>
+                                    </span>
+                                    <small><i><?php echo e(__('labels.backend.general_settings.captcha')); ?></i></small>
+                                    <div id="captcha-credentials"
+                                         class="<?php if(config('access.captcha.registration') == 0 || config('access.captcha.registration') == false): ?> d-none <?php endif; ?>">
+                                        <br>
+                                        <div class="form-group row">
+                                            <?php echo e(html()->label(__('validation.attributes.backend.settings.general_settings.captcha_site_key'))->class('col-md-2 form-control-label')->for('captcha_site_key')); ?>
+
+                                            <div class="col-md-10">
+                                                <?php echo e(html()->text('no-captcha.sitekey')
+                                                     ->class('form-control')
+                                                     ->placeholder(__('validation.attributes.backend.settings.general_settings.captcha_site_key'))
+                                                     ->value(config('no-captcha.sitekey'))); ?>
+
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            <?php echo e(html()->label(__('validation.attributes.backend.settings.general_settings.captcha_site_secret'))->class('col-md-2 form-control-label')->for('captcha_site_secret')); ?>
+
+                                            <div class="col-md-10">
+                                                <?php echo e(html()->text('no-captcha.secret')
+                                                     ->class('form-control')
+                                                     ->placeholder(__('validation.attributes.backend.settings.general_settings.captcha_site_secret'))
+                                                     ->value(config('no-captcha.secret'))); ?>
+
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                    </div>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('validation.attributes.backend.settings.general_settings.retest_status'))->class('col-md-2 form-control-label')->for('retest')); ?>
+
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        <?php echo e(html()->label(
+                                                html()->checkbox('retest', config('retest') ? true : false,1)->id('retest')
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                            ->class('switch switch-sm switch-3d switch-primary')); ?>
+
+                                    </div>
+                                    <small><i> <?php echo e(__('labels.backend.general_settings.retest_note')); ?></i></small>
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('validation.attributes.backend.settings.general_settings.lesson_timer'))->class('col-md-2 form-control-label')->for('lesson_timer')); ?>
+
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        <?php echo e(html()->label(
+                                                html()->checkbox('lesson_timer', config('lesson_timer') ? true : false,1)->id('retest')
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                            ->class('switch switch-sm switch-3d switch-primary')); ?>
+
+                                    </div>
+                                    <small><i> <?php echo e(__('labels.backend.general_settings.lesson_note')); ?></i></small>
+                                </div><!--col-->
+                            </div><!--form-group-->
+                        </div>
+                        <div class="col-12 text-right">
+                            <a href="<?php echo e(route('admin.troubleshoot')); ?>" class="btn btn-lg btn-warning"><?php echo e(__('labels.backend.general_settings.troubleshoot')); ?></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!---Logos Tab--->
+                <div id="logos" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <div class="row form-group">
+                                <?php echo e(html()->label(__('labels.backend.logo.logo_b'))->class('col-md-2 form-control-label')->for('logo_b_image')); ?>
+
+
+                                <div class="col-md-10 ">
+                                    <?php echo Form::file('logo_b_image', ['class' => 'form-control d-inline-block', 'placeholder' => '','id' => 'logo_b_image', 'accept' => 'image/jpeg,image/gif,image/png', 'data-preview'=>'#logo_b_image_preview']); ?>
+
+                                    <p class="help-text mb-0 font-italic"><?php echo __('labels.backend.logo.logo_b_note'); ?></p>
+                                </div>
+                                <div class="col-md-8 offset-md-2">
+                                    <div id="logo_b_image_preview" class="d-inline-block p-3 preview">
+                                        <img height="50px" src="<?php echo e(asset('storage/logos/'.config('logo_b_image'))); ?>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <?php echo e(html()->label(__('labels.backend.logo.logo_w'))->class('col-md-2 form-control-label')->for('logo_w_image')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo Form::file('logo_w_image', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'data-preview'=>'#logo_w_image_preview', 'id' => 'logo_w_image', 'accept' => 'image/jpeg,image/gif,image/png']); ?>
+
+                                    <p class="help-text mb-0 font-italic"><?php echo __('labels.backend.logo.logo_w_note'); ?></p>
+                                </div>
+                                <div class="col-md-8 offset-md-2">
+                                    <div id="logo_w_image_preview" class="d-inline-block p-3 preview">
+                                        <img height="50px" src="<?php echo e(asset('storage/logos/'.config('logo_w_image'))); ?>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <?php echo e(html()->label(__('labels.backend.logo.logo_white'))->class('col-md-2 form-control-label')->for('logo_white_image')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo Form::file('logo_white_image', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'data-preview'=>'#logo_white_image_preview', 'id' => 'logo_w_image', 'accept' => 'image/jpeg,image/gif,image/png']); ?>
+
+                                    <p class="help-text mb-0 font-italic"><?php echo __('labels.backend.logo.logo_white_note'); ?></p>
+                                </div>
+                                <div class="col-md-8 offset-md-2">
+                                    <div id="logo_white_image_preview" class="d-inline-block p-3 preview">
+                                        <img height="50px" src="<?php echo e(asset('storage/logos/'.config('logo_white_image'))); ?>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <?php echo e(html()->label(__('labels.backend.logo.logo_popup'))->class('col-md-2 form-control-label')->for('logo_white_image')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo Form::file('logo_popup', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'data-preview'=>'#logo_popup_preview', 'id' => 'logo_w_image', 'accept' => 'image/jpeg,image/gif,image/png']); ?>
+
+                                    <p class="help-text mb-0 font-italic"><?php echo __('labels.backend.logo.logo_popup_note'); ?></p>
+                                </div>
+                                <div class="col-md-8 offset-md-2">
+                                    <div id="logo_popup_preview" class="d-inline-block p-3 preview">
+                                        <img height="50px" src="<?php echo e(asset('storage/logos/'.config('logo_popup'))); ?>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <?php echo e(html()->label(__('labels.backend.logo.favicon'))->class('col-md-2 form-control-label')->for('favicon_image')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo Form::file('favicon_image', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'data-preview'=>'#favicon_image_preview', 'accept' => 'image/jpeg,image/gif,image/png']); ?>
+
+                                    <p class="help-text mb-0 font-italic"><?php echo __('labels.backend.logo.favicon_note'); ?></p>
+                                </div>
+                                <div class="col-md-8 offset-md-2">
+                                    <div id="favicon_image_preview" class="d-inline-block p-3 preview">
+                                        <img height="50px" src="<?php echo e(asset('storage/logos/'.config('favicon_image'))); ?>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!---Layout Tab--->
+                <div id="layout" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <input type="hidden" id="section_data" name="layout_<?php echo e(config('theme_layout')); ?>">
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.layout_type'))->class('col-md-2 form-control-label')->for('layout_type')); ?>
+
+
+                                <div class="col-md-10">
+                                    <select class="form-control" id="layout_type" name="layout_type">
+                                        <option selected value="wide-layout">Wide</option>
+                                        <option value="box-layout">Box</option>
+                                    </select>
+                                    <span class="help-text font-italic">This will change frontend theme layout type</span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.theme_layout'))->class('col-md-2 form-control-label')->for('theme_layout')); ?>
+
+
+                                <div class="col-md-10">
+                                    <select class="form-control" id="theme_layout" name="theme_layout">
+                                        <option selected value="1">Layout 1</option>
+                                        <option value="2">Layout 2</option>
+                                        <option value="3">Layout 3</option>
+                                        <option value="4">Layout 4</option>
+                                    </select>
+                                    <span class="help-text font-italic"><?php echo e(__('labels.backend.general_settings.layout_note')); ?></span>
+                                    <p id="sections_note" class="d-none font-weight-bold">Once you click on update, you
+                                        will see list of sections to on/off.</p>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row" id="sections">
+                                <div class="col-md-10 offset-md-2">
+                                    <div class="row">
+                                        <?php $__currentLoopData = $sections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <p style="line-height: 35px" class="col-md-4 col-12">
+                                                <?php echo e(html()->label(html()->checkbox('')->id($key)
+                                                   ->checked(($item->status == 1) ? true : false)->class('switch-input')->value(($item->status == 1) ? 1 : 0)
+
+                                             . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                         ->class('switch switch-sm switch-3d switch-primary')); ?> <span class="ml-2 title"><?php echo e($item->title); ?></span>
+                                            </p>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!---SMTP Tab--->
+                <div id="email" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.email.mail_from_name'))->class('col-md-2 form-control-label')->for('mail_from_name')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->text('mail__from__name')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_from_name'))
+                                        ->attribute('maxlength', 191)
+
+                                        ->value(config('mail.from.name'))
+                                        ->autofocus()); ?>
+
+                                    <span class="help-text font-italic"><?php echo e(__('labels.backend.general_settings.email.mail_from_name_note')); ?></span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.email.mail_from_address'))->class('col-md-2 form-control-label')->for('mail_from_address')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->text('mail__from__address')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_from_address'))
+                                        ->attribute('maxlength', 191)
+
+                                        ->value(config('mail.from.address'))
+                                        ->autofocus()); ?>
+
+                                    <span class="help-text font-italic"><?php echo e(__('labels.backend.general_settings.email.mail_from_address_note')); ?></span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.email.mail_driver'))->class('col-md-2 form-control-label')->for('mail_driver')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->text('mail__driver')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_driver'))
+                                        ->attribute('maxlength', 191)
+
+                                        ->value(config('mail.driver'))); ?>
+
+                                    <span class="help-text font-italic"><?php echo __('labels.backend.general_settings.email.mail_driver_note'); ?></span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.email.mail_host'))->class('col-md-2 form-control-label')->for('mail_host')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->text('mail__host')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_driver'))
+                                        ->attribute('maxlength', 191)
+                                        ->placeholder('Ex. smtp.gmail.com')
+                                        ->value(config('mail.host'))); ?>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.email.mail_port'))->class('col-md-2 form-control-label')->for('mail_port')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->text('mail__port')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_port'))
+                                        ->attribute('maxlength', 191)
+                                        ->placeholder('Ex. 465')
+                                        ->value(config('mail.port'))); ?>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.email.mail_username'))->class('col-md-2 form-control-label')->for('mail_username')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->text('mail__username')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_username'))
+                                        ->attribute('maxlength', 191)
+                                        ->placeholder('Ex. myemail@email.com')
+                                        ->value(config('mail.username'))); ?>
+
+                                    <span class="help-text font-italic"><?php echo __('labels.backend.general_settings.email.mail_username_note'); ?></span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.email.mail_password'))->class('col-md-2 form-control-label')->for('mail_password')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->password('mail__password')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_password'))
+                                        ->attribute('maxlength', 191)
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_password'))
+                                        ->value(config('mail.password'))); ?>
+
+                                    <span class="help-text font-italic"><?php echo __('labels.backend.general_settings.email.mail_password_note'); ?></span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.email.mail_encryption'))->class('col-md-2 form-control-label')->for('mail_encryption')); ?>
+
+
+                                <div class="col-md-10">
+                                    <?php echo e(html()->select('mail__encryption',['tls' => 'tls','ssl' => 'ssl'], config('mail.encryption'))
+                                        ->class('form-control')); ?>
+
+                                    <span class="help-text font-italic"><?php echo __('labels.backend.general_settings.email.mail_encryption_note'); ?></span>
+
+                                </div><!--col-->
+
+                            </div><!--form-group-->
+                            <hr>
+                            <p class="help-text mb-0"><?php echo __('labels.backend.general_settings.email.note'); ?></p>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!---Payment Configuration Tab--->
+                <div id="payment_settings" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.payment_settings.select_currency'))->class('col-md-3 form-control-label')); ?>
+
+                                <div class="col-md-9">
+                                    <select class="form-control" id="app__currency" name="app__currency">
+                                        <?php $__currentLoopData = config('currencies'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $currency): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option <?php if(config('app.currency') == $currency['short_code']): ?> selected
+                                                    <?php endif; ?> value="<?php echo e($currency['short_code']); ?>">
+                                                <?php echo e($currency['symbol'].' - '.$currency['name']); ?>
+
+                                            </option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.payment_settings.stripe'))->class('col-md-3 form-control-label')->for('services.stripe.active')); ?>
+
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        <?php echo e(html()->label(
+                                                html()->checkbox('services__stripe__active', config('services.stripe.active') ? true : false,1)
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')); ?>
+
+                                        <a class="float-right font-weight-bold font-italic"
+                                           href="https://stripe.com/docs/keys"
+                                           target="_blank"><?php echo e(__('labels.backend.general_settings.payment_settings.how_to_stripe')); ?></a>
+                                    </div>
+                                    <small>
+                                        <i> <?php echo e(__('labels.backend.general_settings.payment_settings.stripe_note')); ?></i>
+                                    </small>
+                                    <div class="switch-content <?php if(config('services.stripe.active') == 0 || config('services.stripe.active') == false): ?> d-none <?php endif; ?>">
+                                        <br>
+                                        <div class="form-group row">
+                                            <?php echo e(html()->label(__('labels.backend.general_settings.payment_settings.key'))->class('col-md-2 form-control-label')->for('services.stripe.key')); ?>
+
+                                            <div class="col-md-8 col-xs-12">
+                                                <?php echo e(html()->text('services__stripe__key')
+                                                     ->class('form-control')
+                                                     ->value(config('services.stripe.key'))); ?>
+
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            <?php echo e(html()->label(__('labels.backend.general_settings.payment_settings.secret'))->class('col-md-2 form-control-label')->for('services.stripe.secret')); ?>
+
+                                            <div class="col-md-8 col-xs-12">
+                                                <?php echo e(html()->text('services__stripe__secret')
+                                                     ->class('form-control')
+                                                     ->value(config('services.stripe.secret'))); ?>
+
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                    </div>
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.payment_settings.paypal'))->class('col-md-3 form-control-label')); ?>
+
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        <?php echo e(html()->label(
+                                                html()->checkbox('paypal__active', config('paypal.active') ? true : false,1)
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')); ?>
+
+                                        <a target="_blank" href="https://developer.paypal.com/developer/applications/"
+                                           class="float-right font-italic font-weight-bold"><?php echo e(__('labels.backend.general_settings.payment_settings.how_to_paypal')); ?></a>
+                                    </div>
+                                    <small>
+                                        <i> <?php echo e(__('labels.backend.general_settings.payment_settings.paypal_note')); ?></i>
+                                    </small>
+                                    <div class="switch-content <?php if(config('paypal.active') == 0 || config('paypal.active') == false): ?> d-none <?php endif; ?>">
+                                        <br>
+                                        <div class="form-group row">
+                                            <?php echo e(html()->label(__('labels.backend.general_settings.payment_settings.mode'))->class('col-md-2 form-control-label')); ?>
+
+                                            <div class="col-md-8 col-xs-12">
+                                                <select class="form-control" id="paypal_settings_mode"
+                                                        name="paypal__settings__mode">
+                                                    <option selected
+                                                            value="sandbox"><?php echo e(__('labels.backend.general_settings.payment_settings.sandbox')); ?></option>
+                                                    <option value="live"><?php echo e(__('labels.backend.general_settings.payment_settings.live')); ?></option>
+                                                </select>
+                                                <span class="help-text font-italic"><?php echo __('labels.backend.general_settings.payment_settings.mode_note'); ?></span>
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            <?php echo e(html()->label(__('labels.backend.general_settings.payment_settings.client_id'))->class('col-md-2 form-control-label')); ?>
+
+                                            <div class="col-md-8 col-xs-12">
+                                                <?php echo e(html()->text('paypal__client_id')
+                                                     ->class('form-control')
+                                                     ->value(config('paypal.client_id'))); ?>
+
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            <?php echo e(html()->label(__('labels.backend.general_settings.payment_settings.client_secret'))->class('col-md-2 form-control-label')->for('paypal.paypal.secret')); ?>
+
+                                            <div class="col-md-8 col-xs-12">
+                                                <?php echo e(html()->text('paypal__secret')
+                                                     ->class('form-control')
+                                                     ->value(config('paypal.secret'))); ?>
+
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                    </div>
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.payment_settings.offline_mode'))->class('col-md-3 form-control-label')); ?>
+
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        <?php echo e(html()->label(
+                                                html()->checkbox('payment_offline_active', config('payment_offline_active') ? true : false,1)
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')); ?>
+
+                                    </div>
+                                    <small>
+                                        <i> <?php echo e(__('labels.backend.general_settings.payment_settings.offline_mode_note')); ?></i>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Language Tab--->
+                <div id="language_settings" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.language_settings.default_language'))->class('col-md-2 form-control-label')->for('default_language')); ?>
+
+                                <div class="col-md-10">
+                                    <select class="form-control" id="app_locale" name="app__locale">
+                                        <?php $__currentLoopData = $app_locales; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lang): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option data-display-type="<?php echo e($lang->display_type); ?>"
+                                                    <?php if($lang->is_default == 1): ?> selected
+                                                    <?php endif; ?> value="<?php echo e($lang->short_name); ?>"><?php echo e((trans('menus.language-picker.langs.'.$lang)) ? trans('menus.language-picker.langs.'.$lang->short_name) : $lang); ?> </option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <?php echo e(html()->label(__('labels.backend.general_settings.language_settings.display_type'))->class('col-md-2 form-control-label')->for('display_type')); ?>
+
+
+                                <div class="col-md-10">
+                                    <select class="form-control" id="app_display_type" name="app__display_type">
+                                        <option <?php if(config('app.display_type') == 'ltr'): ?> selected
+                                                <?php endif; ?> value="ltr"><?php echo app('translator')->getFromJson('labels.backend.general_settings.language_settings.left_to_right'); ?></option>
+                                        <option <?php if(config('app.display_type') == 'rtl'): ?> selected
+                                                <?php endif; ?>  value="rtl"><?php echo app('translator')->getFromJson('labels.backend.general_settings.language_settings.right_to_left'); ?></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!---User Registration Settings--->
+                <div id="user_registration_settings" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col-12">
+                            <h4><?php echo e(__('labels.backend.general_settings.user_registration_settings.desc')); ?></h4>
+                        </div>
+                        <input type="hidden" id="registration_fields" name="registration_fields">
+
+                        <div class="col-lg-9 input-boxes col-12">
+                            <div class="form-group">
+                                <input type="text" readonly
+                                       placeholder="<?php echo e(__('labels.backend.general_settings.user_registration_settings.fields.first_name')); ?>"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" readonly
+                                       placeholder="<?php echo e(__('labels.backend.general_settings.user_registration_settings.fields.last_name')); ?>"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" readonly
+                                       placeholder="<?php echo e(__('labels.backend.general_settings.user_registration_settings.fields.email')); ?>"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" readonly
+                                       placeholder="<?php echo e(__('labels.backend.general_settings.user_registration_settings.fields.password')); ?>"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 border-left col-12">
+                            <div class="form-group input-list">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" checked disabled value=""> First Name</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" checked disabled value=""> Last Name</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" checked disabled value=""> Email</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" checked disabled value=""> Password</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input class="option" type="checkbox" data-name="phone" data-type="number"
+                                                  value=""> Phone</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input class="option" type="checkbox" data-name="dob" data-type="date"
+                                                  value=""> Date of Birth</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input class="option" type="checkbox" data-name="gender" data-type="radio"
+                                                  value=""> Gender</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input class="option" type="checkbox" data-name="address"
+                                                  data-type="textarea" value=""> Address</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input class="option" type="checkbox" data-name="city" data-type="text"
+                                                  value=""> City</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input class="option" type="checkbox" data-name="pincode" data-type="text"
+                                                  value=""> Pincode</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input class="option" type="checkbox" data-name="state" data-type="text"
+                                                  value=""> State</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input class="option" type="checkbox" data-name="country" data-type="text"
+                                                  value=""> Country</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="card-footer clearfix">
+                    <div class="row">
+                        <div class="col">
+                            <?php echo e(form_cancel(route('admin.general-settings'), __('buttons.general.cancel'))); ?>
+
+                        </div><!--col-->
+                        <div class="col text-right">
+                            <?php echo e(form_submit(__('buttons.general.crud.update'))->id('submit')); ?>
+
+                        </div><!--col-->
+                    </div><!--row-->
+                </div><!--card-footer-->
+            </div><!--card-->
+        </div>
+    </div>
+    <?php echo e(html()->form()->close()); ?>
+
+<?php $__env->stopSection(); ?>
+
+
+<?php $__env->startPush('after-scripts'); ?>
+    <script src="<?php echo e(asset('plugins/bootstrap-iconpicker/js/bootstrap-iconpicker.bundle.min.js')); ?>"></script>
+    <script>
+        $(document).ready(function () {
+
+            //========= Initialisation for Iconpicker ===========//
+            $('#icon').iconpicker({
+                cols: 10,
+                icon: 'fab fa-facebook-f',
+                iconset: 'fontawesome5',
+                labelHeader: '{0} of {1} pages',
+                labelFooter: '{0} - {1} of {2} icons',
+                placement: 'bottom', // Only in button tag
+                rows: 5,
+                search: true,
+                searchText: 'Search',
+                selectedClass: 'btn-success',
+                unselectedClass: ''
+            });
+
+
+            //========== Preset theme layout ==============//
+            <?php if(config('theme_layout') != ""): ?>
+            $('#theme_layout').find('option').removeAttr('selected')
+            $('#theme_layout').find('option[value="<?php echo e(config('theme_layout')); ?>"]').attr('selected', 'selected');
+            <?php endif; ?>
+
+
+            //============ Preset font color ===============//
+            <?php if(config('font_color') != ""): ?>
+            $('.color-list').find('li a').removeClass('active');
+            $('.color-list').find('li a[data-color="<?php echo e(config('font_color')); ?>"]').addClass('active');
+            $('#font_color').val("<?php echo e(config('font_color')); ?>");
+            <?php endif; ?>
+
+
+            //========= Preset Layout type =================//
+            <?php if(config('layout_type') != ""): ?>
+            $('#layout_type').find('option').removeAttr('selected')
+            $('#layout_type').find('option[value="<?php echo e(config('layout_type')); ?>"]').attr('selected', 'selected');
+            <?php endif; ?>
+
+
+            //=========== Preset Counter data =============//
+            <?php if(config('counter') != ""): ?>
+            <?php if((int)config('counter') == 1): ?>
+            $('.counter-container').removeClass('d-none')
+            $('#total_students').val("<?php echo e(config('total_students')); ?>");
+            $('#total_teachers').val("<?php echo e(config('total_teachers')); ?>");
+            $('#total_courses').val("<?php echo e(config('total_courses')); ?>");
+            <?php else: ?>
+            $('#counter-container').empty();
+            <?php endif; ?>
+
+            <?php if(config('counter') != ""): ?>
+            $('.counter-container').removeClass('d-none');
+            <?php endif; ?>
+
+            $('#counter').find('option').removeAttr('selected')
+            $('#counter').find('option[value="<?php echo e(config('counter')); ?>"]').attr('selected', 'selected');
+            <?php endif; ?>
+
+
+            //======== Preset PaymentMode for Paypal =======>
+            <?php if(config('paypal.settings.mode') != ""): ?>
+            $('#paypal_settings_mode').find('option').removeAttr('selected')
+            $('#paypal_settings_mode').find('option[value="<?php echo e(config('paypal.settings.mode')); ?>"]').attr('selected', 'selected');
+            <?php endif; ?>
+
+
+            //============= Font Color selection =================//
+            $(document).on('click', '.color-list li', function () {
+                $(this).siblings('li').find('a').removeClass('active')
+                $(this).find('a').addClass('active');
+                $('#font_color').val($(this).find('a').data('color'));
+            });
+
+
+            //============== Captcha status =============//
+            $(document).on('click', '#captcha_status', function (e) {
+//              e.preventDefault();
+                if ($('#captcha-credentials').hasClass('d-none')) {
+                    $('#captcha_status').attr('checked', 'checked');
+                    $('#captcha-credentials').find('input').attr('required', true);
+                    $('#captcha-credentials').removeClass('d-none');
+                } else {
+                    $('#captcha-credentials').addClass('d-none');
+                    $('#captcha-credentials').find('input').attr('required', false);
+                }
+            });
+
+
+            //===== Counter value on change ==========//
+            $(document).on('change', '#counter', function () {
+                if ($(this).val() == 1) {
+                    $('.counter-container').empty().removeClass('d-none');
+                    var html = "<input class='form-control my-2' type='text' id='total_students' name='total_students' placeholder='" + "<?php echo e(__('labels.backend.general_settings.total_students')); ?>" + "'><input type='text' id='total_courses' class='form-control mb-2' name='total_courses' placeholder='" + "<?php echo e(__('labels.backend.general_settings.total_courses')); ?>" + "'><input type='text' class='form-control mb-2' id='total_teachers' name='total_teachers' placeholder='" + "<?php echo e(__('labels.backend.general_settings.total_teachers')); ?>" + "'>";
+
+                    $('.counter-container').append(html);
+                } else {
+                    $('.counter-container').addClass('d-none');
+                }
+            });
+
+
+            //========== Preview image function on upload =============//
+            var previewImage = function (input, block) {
+                var fileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+                var extension = input.files[0].name.split('.').pop().toLowerCase();
+                var isSuccess = fileTypes.indexOf(extension) > -1;
+
+                if (isSuccess) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $(block).find('img').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    alert('Please input valid file!');
+                }
+
+            };
+            $(document).on('change', 'input[type="file"]', function () {
+                previewImage(this, $(this).data('preview'));
+            });
+
+
+            //========== Registration fields status =========//
+            <?php if(config('registration_fields') != NULL): ?>
+            var fields = "<?php echo e(config('registration_fields')); ?>";
+
+            fields = JSON.parse(fields.replace(/&quot;/g, '"'));
+
+            $(fields).each(function (key,element) {
+                appendElement(element.type,element.name);
+                $('.input-list').find('[data-name="'+element.name+'"]').attr('checked',true)
+
+            });
+
+            <?php endif; ?>
+
+
+            //======= Saving settings for All tabs =================//
+            $(document).on('submit', '#general-settings-form', function (e) {
+//                e.preventDefault();
+
+                //======Saving Layout sections details=====//
+                var sections = $('#sections').find('input[type="checkbox"]');
+                var title, name, status;
+                var sections_data = {};
+                $(sections).each(function () {
+                    if ($(this).is(':checked')) {
+                        status = 1
+                    } else {
+                        status = 0
+                    }
+                    name = $(this).attr('id');
+                    title = $(this).parent('label').siblings('.title').html();
+                    sections_data[name] = {title: title, status: status}
+                });
+                $('#section_data').val(JSON.stringify(sections_data));
+
+                //=========Saving Registration fields ===============//
+                var inputName, inputType;
+                var fieldsData = [];
+                var registrationFields = $('.input-list').find('.option:checked');
+                $(registrationFields).each(function (key, value) {
+                    inputName = $(value).attr('data-name');
+                    inputType = $(value).attr('data-type');
+                    fieldsData.push({name: inputName, type: inputType});
+                });
+                $('#registration_fields').val(JSON.stringify(fieldsData));
+
+            });
+
+
+            //==========Hiding sections on Theme layout option changed ==========//
+            $(document).on('change', '#theme_layout', function () {
+                var theme_layout = "<?php echo e(config('theme_layout')); ?>";
+                if ($(this).val() != theme_layout) {
+                    $('#sections').addClass('d-none');
+                    $('#sections_note').removeClass('d-none')
+                } else {
+                    $('#sections').removeClass('d-none');
+                    $('#sections_note').addClass('d-none')
+                }
+            });
+
+                    <?php if(request()->has('tab')): ?>
+            var tab = "<?php echo e(request('tab')); ?>";
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+            <?php endif; ?>
+
+        });
+
+        $(document).on('click', '.switch-input', function (e) {
+//              e.preventDefault();
+            var content = $(this).parents('.checkbox').siblings('.switch-content');
+            if (content.hasClass('d-none')) {
+                $(this).attr('checked', 'checked');
+                content.find('input').attr('required', true);
+                content.removeClass('d-none');
+            } else {
+                content.addClass('d-none');
+                content.find('input').attr('required', false);
+            }
+        })
+
+
+        //On Default language change update Display type RTL/LTR
+        $(document).on('change', '#app_locale', function () {
+            var display_type = $(this).find(":selected").data('display-type');
+            $('#app_display_type').val(display_type)
+        });
+
+
+        //On click add input list
+        $(document).on('click', '.input-list input[type="checkbox"]', function () {
+
+            var html;
+            var type = $(this).data('type');
+            var name = $(this).data('name');
+            var textInputs = ['text', 'date', 'number'];
+            if ($(this).is(':checked')) {
+                appendElement(type, name)
+            } else {
+                if ((textInputs.includes(type)) || (type == 'textarea')) {
+                    $('.input-boxes').find('[data-name="' + name + '"]').parents('.form-group').remove();
+                } else if (type == 'radio') {
+                    $('.input-boxes').find('.radiogroup').remove();
+                }
+            }
+        });
+
+        function appendElement(type, name) {
+            var values = "<?php echo e(json_encode(Lang::get('labels.backend.general_settings.user_registration_settings.fields'))); ?>";
+            values = JSON.parse(values.replace(/&quot;/g, '"'));
+            var textInputs = ['text', 'date', 'number'];
+            var html;
+            if (textInputs.includes(type)) {
+                html = "<div class='form-group'>" +
+                    "<input type='" + type + "' readonly data-name='" + name + "' placeholder='" + values[name] + "' class='form-control'>" +
+                    "</div>";
+            } else if (type == 'radio') {
+                html = "<div class='form-group radiogroup'>" +
+                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Male</label>" +
+                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Female</label>" +
+                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Other</label>" +
+                    "</div>";
+            } else if (type == 'textarea') {
+                html = "<div class='form-group'>" +
+                    "<textarea  readonly data-name='" + name + "' placeholder='" + values[name] + "' class='form-control'></textarea>" +
+                    "</div>";
+            }
+            $('.input-boxes').append(html)
+        }
+
+
+    </script>
+<?php $__env->stopPush(); ?>
+
+
+
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
