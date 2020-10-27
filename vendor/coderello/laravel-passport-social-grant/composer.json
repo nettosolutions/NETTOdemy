@@ -1,0 +1,41 @@
+{
+    "name": "coderello/laravel-passport-social-grant",
+    "description": "Social Grant for Laravel Passport",
+    "keywords": ["laravel", "passport", "social", "network", "grant", "oauth"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ilya Sakovich",
+            "email": "me@hivokas.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "laravel/passport": "^6.0|^7.0|^8.0|^9.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Coderello\\SocialGrant\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Coderello\\SocialGrant\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --colors=always"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Coderello\\SocialGrant\\Providers\\SocialGrantServiceProvider"
+            ]
+        }
+    }
+}
